@@ -1,0 +1,151 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/FragmentOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fragment One"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.177" />
+
+    <Button
+        android:id="@+id/FragmentTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fragment Two"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.306"
+        tools:ignore="MissingConstraints" />
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+activity_fragment_one.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active Fragment is FragmentOne"
+        android:textSize="24sp"/>
+</LinearLayout>
+
+
+
+activity_fragment_two.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active Fragment is FragmentTwo"
+        android:textSize="24sp"/>
+</LinearLayout>
+
+
+
+MainActivity.java
+
+package com.example.fragmemtandroid;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button FragmentOne = findViewById(R.id.FragmentOne);
+        Button FragmentTwo = findViewById(R.id.FragmentTwo);
+        FragmentOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FragmentOne());
+            }
+        });
+        FragmentTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FragmentTwo());
+            }
+        });
+    }
+    private void loadFragment(androidx.fragment.app.Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment, fragment)
+                .commit();
+    }
+}
+
+
+
+FragmentOne.java
+
+package com.example.fragmemtandroid;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+public class FragmentOne extends Fragment {
+    public FragmentOne() {
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_fragment_one, container, false);
+    }
+}
+
+
+FragmentTwo.java
+
+package com.example.fragmemtandroid;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
+public class FragmentTwo extends Fragment {
+    public FragmentTwo() {
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_fragment_two, container, false);
+    }
+}
+

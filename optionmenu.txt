@@ -1,0 +1,80 @@
+Optionalmenu.xml
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_baseline_search_24" />
+    <item android:id="@+id/upload"
+        android:title="upload"
+        android:icon="@drawable/ic_baseline_cloud_upload_24"/>
+    <item android:id="@+id/copy"
+        android:title="copy content"
+        android:icon="@drawable/ic_baseline_content_copy_24"/>
+    <item android:id="@+id/paste"
+        android:title="paste content"
+        android:icon="@drawable/ic_baseline_content_paste_24"/>
+    <item android:id="@+id/share"
+        android:title="share"
+        android:icon="@drawable/ic_baseline_share_24"/>
+
+
+</menu>
+
+
+MainActivity.java
+
+
+package com.example.mymenu;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.optionalmenu, menu);
+        if (menu instanceof MenuBuilder) {
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Toast.makeText(this, "you selected this item :" + item.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.search:
+                return true;
+            case R.id.upload:
+                return true;
+            case R.id.copy:
+                return true;
+            case R.id.paste:
+                return true;
+            case R.id.share:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item); }
+    }
+}

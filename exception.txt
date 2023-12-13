@@ -1,0 +1,77 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <EditText
+        android:id="@+id/dividendEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Dividend"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/divisorEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dividendEditText"
+        android:hint="Enter Divisor"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
+    <Button
+        android:id="@+id/divideButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Divide Numbers"
+        android:layout_below="@id/divisorEditText"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
+
+
+
+MainActivity.java
+
+package com.example.exception;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        final EditText dividendEditText = findViewById(R.id.dividendEditText);
+        final EditText divisorEditText = findViewById(R.id.divisorEditText);
+        Button divideButton = findViewById(R.id.divideButton);
+        divideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { try {
+                double dividend = Double.parseDouble(dividendEditText.getText().toString());
+                double divisor = Double.parseDouble(divisorEditText.getText().toString());
+                double result = divideNumbers(dividend, divisor);
+                showToast("Result: " + result);
+            } catch (NumberFormatException e) { showToast("Please enter valid numbers");
+            } catch (ArithmeticException e) { showToast("Error: " + e.getMessage());
+            } catch (Exception e) {
+                showToast("An unexpected error occurred");
+            }
+            }
+        });
+    }
+    private double divideNumbers(double dividend, double divisor) {
+        if (divisor == 0) {
+        throw new ArithmeticException("Division by zero is not allowed");
+    }
+        return dividend / divisor;
+    }
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+}

@@ -1,0 +1,165 @@
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="30dp"
+        android:text="Login Here!!"
+        android:textColor="#00574B"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="80dp"
+        android:text="Enter your UserName" />
+    <EditText
+        android:id="@+id/Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:ems="10" />
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:text="Enter your Password" />
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:text="Login" />
+</LinearLayout>
+
+
+Activity_second.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/res_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="170dp"
+        android:textSize="22dp" />
+    <Button
+        android:id="@+id/LogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:text="Log Out" />
+</LinearLayout>
+
+
+
+MainActivity.java
+
+package com.example.sharedpref;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.SharedPreferences; import android.os.Bundle;
+import android.view.View; import android.widget.Button; import android.widget.EditText; import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    EditText username, pass;
+    Button Login_Button;
+    SharedPreferences Shared_pref;
+    Intent intent;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        username = findViewById(R.id.Name);
+        pass = findViewById(R.id.password);
+        Login_Button = findViewById(R.id.Login);
+        Shared_pref = getSharedPreferences("user_details", MODE_PRIVATE);
+        intent = new Intent(MainActivity.this, SecondActivity.class);
+        if (Shared_pref.contains("username") && Shared_pref.contains("password")) {
+            startActivity(intent);
+        }
+        Login_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+        public void onClick(View view) {
+                String username =
+                MainActivity.this.username.getText().toString();
+            String password = pass.getText().toString();
+            if (username.equals("vishal") && password.equals("vishal123")) {
+                SharedPreferences.Editor editor = Shared_pref.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                editor.commit(); Toast.makeText(getApplicationContext(), "Logged in",
+                    Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }else {
+                Toast.makeText(getApplicationContext(), "Enter Right Credentials", Toast.LENGTH_SHORT).show();
+            }
+        }
+        });
+    }
+}
+
+
+
+SecondActivity.java
+
+package com.example.sharedpref;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.content.SharedPreferences; import android.os.Bundle;
+import android.view.View; import android.widget.Button; import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+    SharedPreferences newPreference;
+    Intent newIntent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        TextView result = findViewById(R.id.res_text);
+        Button LogOut_btn = findViewById(R.id.LogOut);
+        newPreference = getSharedPreferences("user_details", MODE_PRIVATE);
+        newIntent = new Intent(SecondActivity.this, MainActivity.class);
+        result.setText("Welcome, " + newPreference.getString("username", null));
+
+
+        LogOut_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor edit = newPreference.edit();
+                edit.clear();
+                edit.commit();
+                startActivity(newIntent);
+
+            }
+
+        });
+
+    }
+}

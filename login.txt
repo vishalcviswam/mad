@@ -1,0 +1,130 @@
+Activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="LOGIN"
+        />
+    </TableRow>
+
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nameone"
+            />
+        <EditText
+            android:id="@+id/ed1"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nametwo"
+            />
+        <EditText
+            android:id="@+id/ed2"
+            android:layout_width="200px"
+            android:layout_height="wrap_content"
+            android:password="true"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/bt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="login"
+            />
+    </TableRow>
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tx1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:inputType="text"/>
+    </TableRow>
+</TableLayout>
+
+
+
+Strings.xml
+
+<resources>
+    <string name="app_name">OddOrEven</string>
+    <string name="nameone">Enter your username :</string>
+    <string name="nametwo">Enter the password :</string>
+</resources>
+
+
+
+MainActivity.java
+
+package com.example.login;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    Button B1;
+    EditText E1,E2;
+    TextView T1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        E1=findViewById(R.id.ed1);
+        E2=findViewById(R.id.ed2);
+        T1=findViewById(R.id.tx1);
+        B1=findViewById(R.id.bt1);
+        B1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username=E1.getText().toString();
+                String password=E2.getText().toString();
+                if (username.equals("vishal") && password.equals("vishal123") ){
+                    T1.setText("Login Successful");
+                } else {
+                    T1.setText("Login failed");
+                }
+            }
+        });
+    }
+}
